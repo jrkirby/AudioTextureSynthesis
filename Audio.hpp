@@ -13,8 +13,8 @@
 class Audio
 {
 	public:
+		Audio(double ** data, int channels);
 		Audio(char * filename);
-		float * create_buffer();
 		int channels;
 		int length;
 		double ** data;

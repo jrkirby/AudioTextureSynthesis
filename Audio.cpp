@@ -45,3 +45,6 @@ Audio::Audio(char * filename)
 	}
 	length = total_samples;
 }
+
+Audio::Audio(double ** data, int channels)
+{}
