@@ -13,7 +13,7 @@
 class Audio
 {
 	public:
-		Audio(double ** data, int channels);
+		Audio(double ** data_, int channels, int length);
 		Audio(char * filename);
 		int channels;
 		int length;

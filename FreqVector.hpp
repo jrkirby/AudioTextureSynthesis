@@ -17,14 +17,17 @@ class FreqVector
 {
 	public:
 		FreqVector(AudioWindow * source);
-		double distance(FreqVector * other);
+		double distance(FreqVector other);
 		double * data;
 
 	private:
 		void init(AudioWindow * source);
 		static double * FFTW_IN;
 		static double * FFTW_OUT;
-		static int inited = 0;
+		static int inited;
 		static int size;
 		static fftw_plan plan_forward;
-}
+};
+
+
+#endif

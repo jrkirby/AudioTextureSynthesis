@@ -1,5 +1,5 @@
-OFILES= AudioWindow.o Audio.o FreqVector.o Neighbors.o 
-LIB= -lsndfile -lfftw3
+OFILES=AudioWindow.o Audio.o FreqVector.o Neighbors.o
+LIB=-lsndfile -lfftw3 -lm
 
 all: main
 
@@ -10,7 +10,7 @@ Audio.o: Audio.cpp
 	g++ -c Audio.cpp -o Audio.o $(LIB)
 
 AudioWindow.o: AudioWindow.cpp
-	g++ -c Audio.cpp -o Audio.o $(LIB)
+	g++ -c AudioWindow.cpp -o AudioWindow.o $(LIB)
 
 FreqVector.o: FreqVector.cpp
 	g++ -c FreqVector.cpp -o FreqVector.o $(LIB)
@@ -18,4 +18,5 @@ FreqVector.o: FreqVector.cpp
 Neighbors.o: Neighbors.cpp
 	g++ -c Neighbors.cpp -o Neighbors.o $(LIB)
 
-
+clean:
+	rm *.o

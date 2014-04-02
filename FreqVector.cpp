@@ -10,6 +10,12 @@
 #include "AudioWindow.hpp"
 #include "Audio.hpp"
 
+int FreqVector::inited = 0;
+double * FreqVector::FFTW_IN;
+double * FreqVector::FFTW_OUT;
+int FreqVector::size;
+fftw_plan FreqVector::plan_forward;
+
 FreqVector::FreqVector(AudioWindow * source)
 {
 	if(!inited)
@@ -24,7 +30,7 @@ FreqVector::FreqVector(AudioWindow * source)
 		}
 		int n = size;
 		//put our data into FFTW's memory
-		memcpy( FFTW_IN, source->audio->(data[0]), size * sizeof(double) );
+		memcpy( FFTW_IN, source->audio->data[0], size * sizeof(double) );
 
 		//run our plan on it
 		fftw_execute ( plan_forward );
@@ -35,16 +41,16 @@ FreqVector::FreqVector(AudioWindow * source)
 
 }
 
-void FreqVector::init()
+void FreqVector::init(AudioWindow * source)
 {
 	size = source->size;
 	
 	//Allocate our static arrays which will be used for all future DHTs
-	FFTW_IN = fftw_malloc ( sizeof(double) * size );
-	FFTW_OUT = fftw_malloc ( sizeof(double) * size );
+	FFTW_IN = (double *) fftw_malloc ( sizeof(double) * size );
+	FFTW_OUT = (double *) fftw_malloc ( sizeof(double) * size );
 	
 	//put our first data into the input array
-	memcpy( FFTW_IN, source->audio->(data[0]), size * sizeof(double) );
+	memcpy( FFTW_IN, source->audio->data[0], size * sizeof(double) );
 	
 	//create the plan that FFTW uses. we reuse this plan every execution
 	plan_forward = fftw_plan_r2r_1d ( size, FFTW_IN, FFTW_OUT, FFTW_DHT, FFTW_ESTIMATE );
@@ -57,11 +63,12 @@ void FreqVector::init()
 
 }
 
-double FreqVector::distance(FreqVector * other)
+double FreqVector::distance(FreqVector other)
 {
-	dist = 0;
+	int dist = 0;
 	for(int i = 0; i < size; i++)
 	{
-		dist += (other->data[i] - data[i]) * (other->data[i] - data[i]);
+		dist += (other.data[i] - data[i]) * (other.data[i] - data[i]);
 	}
+	return dist;
 }

@@ -46,5 +46,9 @@ Audio::Audio(char * filename)
 	length = total_samples;
 }
 
-Audio::Audio(double ** data, int channels)
-{}
+Audio::Audio(double ** data_, int channels_, int length_)
+{
+	data = data_;
+	channels = channels_;
+	length = length_;
+}

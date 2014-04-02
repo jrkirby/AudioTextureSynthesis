@@ -6,13 +6,14 @@
 
 #include <sndfile.h>
 #include "FreqVector.hpp"
+#include "Neighbors.hpp"
 #include <vector>
 
 #include <cmath>
 
 Neighbors::Neighbors(){}
 
-Neighbors::AddVector(FreqVector new_vector)
+void Neighbors::AddVector(FreqVector new_vector)
 {
 	vectors.push_back(new_vector);
 }
@@ -29,8 +30,8 @@ vector<FreqVector> Neighbors::KNN(FreqVector query, int k)
 
 	//allocate a bit of extra space so we don't have out of bounds accesses
 	//just simplifies our loop later
-	int * nearest_k_indicies = malloc(sizeof(int) * (k + 1));
-	double * nearest_k_distances = malloc(sizeof(double) * (k + 1));
+	int * nearest_k_indicies = (int *) malloc(sizeof(int) * (k + 1));
+	double * nearest_k_distances = (double *) malloc(sizeof(double) * (k + 1));
 	for(int j = 0; j < k; j++)
 	{
 		nearest_k_distances[j] = 10000000000000000.0; 
